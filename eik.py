@@ -1,25 +1,15 @@
+import os
 from pynput import keyboard
 import datetime
 
 
-# this variable used for the while True that stop the code from stop
-program_running = True
-
 def time_taker():
-
-
     date = datetime.date(2025, 1, 3)
     today = datetime.date.today()
-
     time = datetime.time(12, 30, 34)
     now = datetime.datetime.now()
-
     now = now.strftime("%H:%M:%S--%d/%m/%Y")
-
     return now
-
-
-
 
 
 def keypressed(key):
@@ -38,17 +28,16 @@ def keypressed(key):
         except:
             print("error getting char")
 
-def on_activate_h():
-    """when <ctrl>+<shift>+f pressed the func change the global program_running to False and the script stopped"""
-    global program_running
-    program_running = False
+def kill_the_process():
+    """when <ctrl>+<shift>+f pressed the func kill the process"""
+    os._exit(0)
 
 
 def listiner():
     listener=keyboard.Listener(on_press=keypressed)
     listener.start()
-    keyboard.GlobalHotKeys({'<ctrl>+<shift>+f': on_activate_h}).start()
-    while program_running:
+    keyboard.GlobalHotKeys({'<ctrl>+<shift>+f': kill_the_process}).start()
+    while True:
         pass
 
 if __name__=="__main__":
